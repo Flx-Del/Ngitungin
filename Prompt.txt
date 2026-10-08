@@ -1,0 +1,800 @@
+Saya ingin membuat sebuah **software pembukuan dan kalkulator HPP (Harga Pokok Produksi) untuk UMKM** yang memiliki tampilan modern, sederhana, dan mudah digunakan oleh pemilik usaha yang tidak memiliki latar belakang akuntansi.
+
+## 1. Tujuan Software
+
+Software ini memiliki dua fungsi utama:
+
+1. **Pembukuan UMKM**
+
+   * Mencatat pemasukan dan pengeluaran.
+   * Mengelola transaksi penjualan dan pembelian.
+   * Menyimpan data produk/barang.
+   * Menampilkan laporan keuangan secara otomatis.
+   * Menampilkan ringkasan kondisi keuangan bisnis melalui dashboard.
+
+2. **Kalkulator HPP**
+
+   * Menghitung HPP produk berdasarkan bahan baku, tenaga kerja, dan biaya overhead.
+   * Menghitung HPP per unit.
+   * Membantu menentukan harga jual berdasarkan margin keuntungan yang diinginkan.
+   * Menampilkan simulasi keuntungan.
+
+---
+
+# 2. Target Pengguna
+
+Target utama adalah:
+
+* UMKM
+* Toko kecil
+* Bisnis makanan/minuman
+* Bisnis produksi rumahan
+* Toko retail
+* Pemilik usaha yang masih melakukan pembukuan secara manual
+
+Prioritaskan **kemudahan penggunaan** daripada fitur akuntansi yang terlalu kompleks.
+
+Gunakan bahasa Indonesia yang sederhana dan mudah dipahami.
+
+---
+
+# 3. Struktur Menu Utama
+
+Buat sidebar/navigation dengan menu:
+
+### Dashboard
+
+Menampilkan ringkasan bisnis secara real-time.
+
+### Transaksi
+
+* Penjualan
+* Pengeluaran
+* Pembelian
+* Pemasukan lain
+* Pengeluaran lain
+
+### Produk
+
+* Daftar produk
+* Tambah produk
+* Edit produk
+* Stok
+* Harga jual
+* HPP
+
+### Kalkulator HPP
+
+Digunakan untuk menghitung HPP produk.
+
+### Laporan
+
+* Laporan penjualan
+* Laporan pengeluaran
+* Laporan laba rugi sederhana
+* Laporan HPP
+* Laporan produk
+* Laporan arus kas
+
+### Pengaturan
+
+* Profil usaha
+* Informasi bisnis
+* Satuan
+* Kategori
+* Pengguna
+* Backup/export data
+
+---
+
+# 4. Dashboard
+
+Dashboard harus menjadi halaman utama setelah user login.
+
+Tampilkan card statistik:
+
+* Total Penjualan
+* Total Pengeluaran
+* Laba Bersih
+* Total HPP
+* Jumlah Transaksi
+* Produk Terlaris
+
+Tambahkan grafik:
+
+### Grafik Penjualan
+
+Line/bar chart berdasarkan:
+
+* Hari
+* Minggu
+* Bulan
+
+### Grafik Pemasukan vs Pengeluaran
+
+Bandingkan pemasukan dan pengeluaran dalam periode tertentu.
+
+### Grafik Laba
+
+Tampilkan perkembangan laba dari waktu ke waktu.
+
+### Produk Terlaris
+
+Tampilkan ranking produk berdasarkan jumlah terjual.
+
+### Ringkasan Stok
+
+Tampilkan:
+
+* Stok menipis
+* Produk habis
+* Produk dengan stok terbanyak
+
+Sediakan filter periode:
+
+* Hari ini
+* 7 hari terakhir
+* Bulan ini
+* Bulan lalu
+* Custom date range
+
+Semua data dashboard harus berasal dari database dan diperbarui secara otomatis ketika transaksi berubah.
+
+---
+
+# 5. Modul Pembukuan
+
+## A. Transaksi Penjualan
+
+Form penjualan memiliki:
+
+* Tanggal
+* Nomor transaksi
+* Produk
+* Jumlah
+* Harga satuan
+* Diskon
+* Total
+* Metode pembayaran
+* Catatan
+
+Ketika transaksi disimpan:
+
+1. Saldo pemasukan bertambah.
+2. Stok produk berkurang.
+3. HPP penjualan dihitung.
+4. Laba otomatis dihitung.
+5. Data dashboard diperbarui.
+
+Formula:
+
+Total Penjualan = Jumlah × Harga Jual - Diskon
+
+Laba Kotor = Total Penjualan - HPP Penjualan
+
+---
+
+# 6. Modul Pengeluaran
+
+Form pengeluaran:
+
+* Tanggal
+* Kategori pengeluaran
+* Deskripsi
+* Nominal
+* Metode pembayaran
+* Catatan
+
+Contoh kategori:
+
+* Bahan baku
+* Gaji
+* Listrik
+* Air
+* Internet
+* Sewa
+* Transportasi
+* Marketing
+* Packaging
+* Operasional
+* Lainnya
+
+---
+
+# 7. Modul Produk
+
+Setiap produk memiliki:
+
+* ID produk
+* Nama produk
+* SKU
+* Kategori
+* Satuan
+* Harga jual
+* HPP
+* Stok
+* Minimum stok
+* Status aktif/nonaktif
+
+Contoh:
+
+Produk:
+"Es Kopi Susu"
+
+Harga jual:
+Rp20.000
+
+HPP:
+Rp8.500
+
+Margin:
+Rp11.500
+
+Margin %:
+57,5%
+
+Sistem harus dapat menghitung margin secara otomatis.
+
+---
+
+# 8. KALKULATOR HPP
+
+Ini merupakan salah satu fitur utama aplikasi.
+
+Buat kalkulator HPP yang fleksibel sehingga dapat digunakan untuk berbagai jenis UMKM.
+
+HPP dibagi menjadi:
+
+### A. Bahan Baku
+
+User dapat memasukkan:
+
+* Nama bahan
+* Harga beli
+* Jumlah yang dibeli
+* Satuan
+* Jumlah yang digunakan dalam satu produk
+
+Sistem menghitung biaya bahan yang digunakan.
+
+Contoh:
+
+Gula:
+Harga beli = Rp20.000/kg
+
+Digunakan:
+20 gram
+
+Biaya gula:
+
+Rp20.000 / 1.000 gram × 20 gram
+= Rp400
+
+---
+
+### B. Tenaga Kerja
+
+User dapat memasukkan:
+
+* Jenis pekerjaan
+* Upah
+* Durasi kerja
+* Jumlah produk yang dihasilkan
+
+Sistem menghitung biaya tenaga kerja per produk.
+
+Contoh:
+
+Upah produksi:
+Rp100.000
+
+Jumlah produk:
+50 unit
+
+Biaya tenaga kerja/unit:
+Rp2.000
+
+---
+
+### C. Biaya Overhead
+
+Contoh:
+
+* Listrik
+* Gas
+* Air
+* Sewa
+* Packaging
+* Penyusutan alat
+* Transportasi
+* Biaya operasional lainnya
+
+User dapat menentukan apakah biaya dihitung:
+
+* Per produk
+* Per batch
+* Per bulan
+
+---
+
+# 9. Formula HPP
+
+Gunakan formula:
+
+Total HPP Produksi =
+Bahan Baku + Tenaga Kerja + Overhead
+
+HPP per Unit =
+Total Biaya Produksi / Jumlah Produk yang Dihasilkan
+
+Contoh:
+
+Bahan baku = Rp100.000
+Tenaga kerja = Rp50.000
+Overhead = Rp25.000
+
+Total biaya produksi:
+Rp175.000
+
+Produksi:
+50 unit
+
+HPP/unit:
+Rp3.500
+
+---
+
+# 10. Kalkulator Harga Jual
+
+Setelah HPP dihitung, user dapat memasukkan:
+
+"Target Margin Keuntungan"
+
+Contoh:
+
+HPP:
+Rp10.000
+
+Target margin:
+40%
+
+Sistem menghitung harga jual yang disarankan.
+
+Gunakan formula margin:
+
+Harga Jual = HPP / (1 - Margin)
+
+Contoh:
+
+Rp10.000 / (1 - 40%)
+= Rp16.667
+
+Tampilkan:
+
+HPP: Rp10.000
+Margin target: 40%
+Harga jual minimum: Rp16.667
+Estimasi keuntungan: Rp6.667
+
+Tambahkan opsi pembulatan harga:
+
+* Ke Rp100 terdekat
+* Ke Rp500 terdekat
+* Ke Rp1.000 terdekat
+
+---
+
+# 11. Simulasi Keuntungan
+
+Buat fitur simulasi.
+
+User dapat memasukkan:
+
+* Harga jual
+* HPP
+* Jumlah produk terjual
+* Target penjualan
+
+Sistem menampilkan:
+
+* Omzet
+* Total HPP
+* Laba kotor
+* Margin keuntungan
+* Estimasi laba
+
+Contoh:
+
+Harga jual = Rp20.000
+HPP = Rp8.000
+Penjualan = 100 unit
+
+Omzet = Rp2.000.000
+Total HPP = Rp800.000
+Laba kotor = Rp1.200.000
+Margin = 60%
+
+---
+
+# 12. Laporan Keuangan
+
+Buat laporan sederhana yang mudah dipahami UMKM.
+
+## Laporan Laba Rugi
+
+Tampilkan:
+
+Pendapatan
+
+* Penjualan
+* Pendapatan lain
+
+Dikurangi:
+
+HPP
+Biaya operasional
+
+Hasil:
+
+Laba Bersih
+
+Formula:
+
+Laba Bersih =
+Pendapatan - HPP - Biaya Operasional
+
+---
+
+## Laporan Arus Kas
+
+Tampilkan:
+
+Kas Masuk
+Kas Keluar
+Saldo Kas
+
+Buat filter berdasarkan periode.
+
+---
+
+# 13. Laporan HPP
+
+Tampilkan tabel:
+
+| Produk | HPP | Harga Jual | Profit | Margin |
+| ------ | --- | ---------- | ------ | ------ |
+
+Tambahkan kemampuan:
+
+* Sort
+* Filter
+* Search
+* Export
+
+---
+
+# 14. Database
+
+Gunakan database relational.
+
+Minimal tabel:
+
+### users
+
+* id
+* name
+* email
+* password
+* created_at
+
+### businesses
+
+* id
+* user_id
+* business_name
+* business_type
+* address
+* created_at
+
+### products
+
+* id
+* business_id
+* name
+* sku
+* category_id
+* unit
+* selling_price
+* cost_price
+* stock
+* minimum_stock
+* created_at
+
+### categories
+
+* id
+* business_id
+* name
+* type
+
+### transactions
+
+* id
+* business_id
+* transaction_number
+* type
+* date
+* total
+* payment_method
+* notes
+* created_at
+
+### transaction_items
+
+* id
+* transaction_id
+* product_id
+* quantity
+* price
+* subtotal
+* cost
+
+### expenses
+
+* id
+* business_id
+* category_id
+* date
+* amount
+* description
+
+### products_materials
+
+* id
+* product_id
+* material_id
+* quantity
+
+### materials
+
+* id
+* business_id
+* name
+* unit
+* purchase_price
+* purchase_quantity
+
+### labor_costs
+
+* id
+* product_id
+* description
+* cost
+
+### overhead_costs
+
+* id
+* product_id
+* description
+* cost
+
+---
+
+# 15. UI/UX
+
+Gunakan desain modern seperti SaaS dashboard.
+
+Karakteristik:
+
+* Clean
+* Minimalis
+* Profesional
+* Responsive
+* Mudah digunakan
+* Tidak terlalu banyak warna
+* Fokus pada data
+
+Gunakan:
+
+* Card
+* Table
+* Modal
+* Form
+* Dropdown
+* Date picker
+* Chart
+* Badge status
+
+Pastikan responsive untuk:
+
+* Desktop
+* Tablet
+* Mobile
+
+Gunakan format mata uang Indonesia:
+
+Rp1.500.000
+
+Gunakan format tanggal Indonesia:
+
+DD/MM/YYYY
+
+---
+
+# 16. UX untuk User Awam
+
+Jangan menggunakan istilah akuntansi yang terlalu sulit.
+
+Jika menggunakan istilah seperti:
+
+"HPP"
+
+Berikan tooltip:
+
+"HPP adalah total biaya yang dibutuhkan untuk menghasilkan satu produk."
+
+Berikan empty state jika belum ada transaksi.
+
+Contoh:
+
+"Belum ada transaksi.
+Mulai catat penjualan pertama Anda."
+
+---
+
+# 17. Validasi
+
+Pastikan sistem memiliki validasi:
+
+* Harga tidak boleh negatif.
+* Jumlah produk harus lebih dari 0.
+* Stok tidak boleh menjadi negatif.
+* Transaksi harus memiliki minimal satu produk.
+* Produk harus memiliki harga.
+* HPP tidak boleh negatif.
+* Margin harus berada di antara 0–100%.
+
+Tampilkan pesan error yang mudah dimengerti.
+
+---
+
+# 18. Export Data
+
+Sediakan fitur export:
+
+* Excel
+* CSV
+* PDF
+
+User dapat memilih periode sebelum melakukan export.
+
+---
+
+# 19. Arsitektur Software
+
+Gunakan arsitektur yang clean dan mudah dikembangkan.
+
+Pisahkan:
+
+* Frontend
+* Backend
+* Database
+* Business Logic
+* Authentication
+* Reporting
+
+Jangan menaruh seluruh logic di frontend.
+
+Perhitungan HPP dan transaksi penting harus dilakukan/validasi di backend agar konsisten dan aman.
+
+---
+
+# 20. Prinsip Pengembangan
+
+Prioritaskan:
+
+1. Akurasi perhitungan.
+2. Kemudahan penggunaan.
+3. Konsistensi data.
+4. Keamanan data.
+5. Performa.
+6. Skalabilitas.
+
+Hindari fitur yang terlalu kompleks pada versi pertama.
+
+Buat MVP terlebih dahulu.
+
+---
+
+# 21. MVP
+
+Versi pertama minimal harus memiliki:
+
+1. Login/Register
+2. Dashboard
+3. CRUD Produk
+4. CRUD Transaksi Penjualan
+5. CRUD Pengeluaran
+6. Manajemen Stok
+7. Kalkulator HPP
+8. Kalkulator Harga Jual
+9. Simulasi keuntungan
+10. Laporan laba rugi sederhana
+11. Grafik dashboard
+12. Export data
+
+Setelah MVP selesai, baru siapkan arsitektur agar mudah ditambahkan:
+
+* Multi-user
+* Multi-cabang
+* Supplier
+* Hutang/piutang
+* Invoice
+* Barcode
+* Pembelian
+* Laporan pajak
+* Integrasi payment gateway
+* Notifikasi stok
+* Backup otomatis
+
+---
+
+# 22. Output yang Saya Inginkan dari AI Developer
+
+Jangan langsung membuat seluruh aplikasi tanpa penjelasan.
+
+Kerjakan secara bertahap:
+
+### Tahap 1
+
+Analisis requirement dan buat arsitektur aplikasi.
+
+### Tahap 2
+
+Buat database schema dan ERD.
+
+### Tahap 3
+
+Buat authentication.
+
+### Tahap 4
+
+Buat modul produk dan inventory.
+
+### Tahap 5
+
+Buat transaksi.
+
+### Tahap 6
+
+Buat kalkulator HPP.
+
+### Tahap 7
+
+Buat kalkulator harga jual dan simulasi keuntungan.
+
+### Tahap 8
+
+Buat dashboard.
+
+### Tahap 9
+
+Buat laporan.
+
+### Tahap 10
+
+Testing, validasi perhitungan, security check, dan responsive UI.
+
+Pada setiap tahap:
+
+* Jelaskan apa yang dibuat.
+* Tampilkan struktur folder.
+* Buat kode yang diperlukan.
+* Jelaskan cara menjalankan.
+* Pastikan fitur yang sudah dibuat tetap kompatibel dengan tahap sebelumnya.
+
+Jangan membuat dummy calculation untuk HPP. Semua perhitungan harus benar-benar berasal dari data database.
+
+Gunakan contoh data UMKM Indonesia untuk testing.
+
+Pastikan seluruh sistem menggunakan **Bahasa Indonesia** untuk user interface.
