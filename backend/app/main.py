@@ -17,9 +17,17 @@ from app import models  # noqa: F401 — register model metadata
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Ngitungin API", version="0.1.0", description="API pembukuan dan HPP UMKM")
+local_frontend_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+allowed_origins = [settings.frontend_origin]
+allowed_origin_regex = None
+if settings.frontend_origin in local_frontend_origins:
+    allowed_origins = local_frontend_origins
+    allowed_origin_regex = r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin],
+    allow_origins=allowed_origins,
+    allow_origin_regex=allowed_origin_regex,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
     allow_headers=["Authorization", "Content-Type"],
