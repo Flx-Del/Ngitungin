@@ -1,6 +1,7 @@
 from decimal import Decimal, ROUND_HALF_UP
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_business
@@ -20,17 +21,46 @@ def list_materials(db: Session = Depends(get_db), business: Business = Depends(g
 
 
 @router.post("/api/materials", response_model=MaterialResponse, status_code=201)
-def create_material(payload: MaterialCreate, db: Session = Depends(get_db), business: Business = Depends(get_current_business)):
+def create_material(payload: MaterialCreate, response: Response, db: Session = Depends(get_db), business: Business = Depends(get_current_business)):
     if not payload.name.strip() or not payload.unit_label.strip():
         raise HTTPException(status_code=422, detail="Nama bahan dan satuan wajib diisi.")
     values = payload.model_dump()
     values["name"] = payload.name.strip()
     values["unit_label"] = payload.unit_label.strip()
+    # Match names without regard to case or surrounding whitespace so repeated
+    # submissions update the existing material instead of creating duplicates.
+    material = db.query(Material).filter(
+        Material.business_id == business.id,
+        Material.is_active.is_(True),
+        func.lower(Material.name) == values["name"].lower(),
+    ).with_for_update().first()
+    if material is not None:
+        response.status_code = 200
+        material.name = values["name"]
+        material.unit_label = values["unit_label"]
+        material.purchase_price = values["purchase_price"]
+        material.purchase_quantity = values["purchase_quantity"]
+        db.commit()
+        db.refresh(material)
+        return material
     material = Material(business_id=business.id, **values)
     db.add(material)
     db.commit()
     db.refresh(material)
     return material
+
+
+@router.delete("/api/materials/{material_id}", status_code=204)
+def deactivate_material(material_id: int, db: Session = Depends(get_db), business: Business = Depends(get_current_business)):
+    material = db.query(Material).filter(
+        Material.id == material_id, Material.business_id == business.id,
+        Material.is_active.is_(True),
+    ).first()
+    if material is None:
+        raise HTTPException(status_code=404, detail="Bahan tidak ditemukan.")
+    # Keep recipe history intact; inactive materials disappear from the picker.
+    material.is_active = False
+    db.commit()
 
 
 @router.put("/api/products/{product_id}/costing", response_model=CostingResponse)

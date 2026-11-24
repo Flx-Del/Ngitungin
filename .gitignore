@@ -13,3 +13,8 @@ dist/
 *.py[cod]
 .DS_Store
 Thumbs.db
+
+# Local prompts and generated TypeScript build metadata
+prompt.txt
+Prompt.txt
+*.tsbuildinfo
